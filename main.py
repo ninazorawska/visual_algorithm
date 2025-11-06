@@ -17,7 +17,7 @@ st.set_page_config(
 col1, col2 = st.columns([1, 3], vertical_alignment="center")
 
 with col1:
-    image = Image.open("nina.jpg")  # put nina.jpg in same folder
+    image = Image.open("IMG_1133.jpg")  
     st.image(image, width=180, use_container_width=False)
 
 with col2:
