@@ -1,2 +1,2 @@
-# visual_algorithm
-Visualising algorithms web
+# Web page
+Personal blog
