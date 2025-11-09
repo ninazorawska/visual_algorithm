@@ -1,3 +1,7 @@
+import os
+print("Current working directory:", os.getcwd())
+print("File exists:", os.path.exists("assets/lisbon_bg.JPG"))
+
 import streamlit as st
 from sections.hero import show_hero
 from sections.about import show_about
