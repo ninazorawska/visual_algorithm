@@ -20,15 +20,14 @@ from utils.styling import apply_custom_css
 from sections.hero import show_hero
 add_sidebar()
 apply_custom_css()
-show_hero()
+# show_hero()
 
 # --- Add spacing between hero and about ---
-st.markdown("<br><br><br>", unsafe_allow_html=True)
+# st.markdown("<br><br><br>", unsafe_allow_html=True)
 # --- Display all sections ---
 def main():
-    st.markdown("---")
     show_about()
-    st.markdown("---")
+    st.markdown("<br>", unsafe_allow_html=True)
     show_projects()
     st.markdown("---")
     show_skills()

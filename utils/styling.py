@@ -18,18 +18,24 @@ def apply_custom_css():
         <style>
         /* === IMPORT GOOGLE FONTS === */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&display=swap');
+
 
         /* === BASE FONT STYLES === */
-        html, body, [data-testid="stAppViewContainer"], .main {{
-            font-family: 'Inter', sans-serif !important;
+        html, body, [data-testid="stAppViewContainer"] {{
+            font-family: 'Plus Jakarta Sans', sans-serif !important;
+            background-color: #f0f0f0 !important;
+            color: #111 !important;
         }}
 
-        h1, h2, h3, .hero h1, .page-content h2 {{
-            font-family: 'Poppins', sans-serif !important;
+        /* HEADINGS */
+        h1, h2, h3 {{
+            font-family: 'Space Grotesk', sans-serif !important;
             letter-spacing: 0.5px;
+            color: #111 !important;
         }}
-
-        /* ---------- HERO SECTION (full screen) ---------- */
+                
+       /* ---------- HERO SECTION (full screen) ---------- */
         .hero-section {{
             position: relative;
             height: 100vh;
@@ -41,7 +47,7 @@ def apply_custom_css():
             align-items: center;
             color: white;
             text-align: center;
-        }}
+        }}##
 
         .hero-overlay {{
             background: rgba(0, 0, 0, 0.45);
@@ -71,59 +77,42 @@ def apply_custom_css():
             text-decoration: underline;
         }}
 
-        /* ---------- PAGE CONTENT BELOW ---------- */
-        .page-content {{
-            background-color: white;
-            color: #333;
-            padding: 8rem 2rem 10rem 2rem;
-            min-height: 100vh;
+        /* PAGE CONTENT BLOCK */
+        .block-container {{
+            padding-top: 2rem;
         }}
 
+        /* ACCENT TITLES */
         .page-content h2 {{
-            text-align: center;
-            margin-bottom: 2.5rem;
-            font-size: 4rem;               /* 👈 beautiful large titles */
-            font-weight: 700;
-            letter-spacing: 1px;
-            color: #111;
-            position: relative;
-            display: inline-block;
-            padding-bottom: 0.5rem;
-            font-family: 'Poppins', sans-serif;
+                text-align: center;
+                font-size: 3.2rem;
+                color: #ffffff;
+                position: relative;
+                display: inline-block;
+                padding-bottom: 0.4rem;
         }}
 
-        /* underline accent */
         .page-content h2::after {{
-            content: "";
-            position: absolute;
-            left: 50%;
-            bottom: 0;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background-color: #ffb6c1;
-            border-radius: 2px;
+                content: "";
+                position: absolute;
+                left: 50%;
+                bottom: 0;
+                transform: translateX(-50%);
+                width: 80px;
+                height: 4px;
+                background-color: #ffb6c1;
+                border-radius: 2px;
         }}
 
+            /* PARAGRAPHS */
         .page-content p {{
-            font-size: 1.1rem;
-            line-height: 1.7;
-            max-width: 900px;
-            margin: 0 auto;
-            text-align: justify;
+                font-size: 1.1rem;
+                line-height: 1.7;
+                max-width: 900px;
+                margin: 0 auto;
+                color: #e8e8e8;
         }}
 
-        /* ---------- FUNNY DIVIDER ---------- */
-        .wave-divider {{
-            line-height: 0;
-            overflow: hidden;
-        }}
-
-        .wave-divider svg {{
-            display: block;
-            width: 100%;
-            height: 100px;
-        }}
 
         /* Hide Streamlit chrome */
         #MainMenu {{visibility: hidden;}}

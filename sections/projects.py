@@ -1,12 +1,34 @@
 import streamlit as st
 import os
 import base64
+from PIL import Image
+
+def get_aspect_ratio(path):
+    """
+    Returns aspect ratio: width / height
+    Tall image  -> ratio < 0.8
+    Normal      -> ratio 0.8–1.4
+    Wide image  -> ratio > 1.4
+    Very wide   -> ratio > 2.0
+    """
+    try:
+        img = Image.open(path)
+        w, h = img.size
+        return w / h
+    except:
+        return None
+
+
+def img_to_base64(path):
+    with open(path, "rb") as f:
+        return base64.b64encode(f.read()).decode()
+
 
 def show_projects():
     st.markdown('<a class="anchor" id="projects"></a>', unsafe_allow_html=True)
     st.header("Highlighted Projects")
-
-    # 💅 Minimalist expander styling
+    st.markdown("<br><br><br>", unsafe_allow_html=True)
+    # Minimalist expander styling
     st.markdown("""
     <style>
     div[data-testid="stExpander"] {
@@ -21,7 +43,7 @@ def show_projects():
         background: transparent !important;
         color: #b84c8b !important;
         font-weight: 600 !important;
-        font-size: 18px !important;
+        font-size: 25px !important;
         border: none !important;
         box-shadow: none !important;
         padding: 0 !important;
@@ -39,12 +61,60 @@ def show_projects():
         background: transparent !important;
         padding-top: 0.5rem !important;
     }
+                
+    /* ===== FONT + SIZE CONTROL INSIDE PROJECT SECTIONS ===== */
+
+    /* Section titles: Description, Methods, Results, etc. */
+    div[data-testid="stExpander"] h4 {
+        font-size: 28px !important;          /* <<< CHANGE SIZE HERE */
+        font-family: 'Space Grotesk', sans-serif !important;   /* <<< CHANGE FONT HERE */
+        font-weight: 600 !important;
+        margin-top: 1.5rem !important;
+        color: #111 !important;            /* if dark mode */
+    }
+
+    /* Body text inside expander */
+    div[data-testid="stExpander"] p,
+    div[data-testid="stExpander"] ul li,
+    div[data-testid="stExpander"] div {
+        font-size: 25px !important;           /* <<< CHANGE SIZE HERE */
+        font-family: 'Space Grotesk', sans-serif !important; /* <<< CHANGE FONT HERE */
+        line-height: 1.7 !important;
+        color: #111 !important;
+    }
+                
+    /* Force images inside columns to scale uniformly */
+    .project-image {
+        width: 100% !important;
+        max-width: 500px !important;   /* <<< you can adjust this */
+        height: auto !important;
+        object-fit: contain !important;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+    }
+                
+    /* For image rendering */
+    .project-img {
+        width: 100% !important;
+        height: auto !important;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+
+
     </style>
     """, unsafe_allow_html=True)
 
     projects = [
         {
-            "title": "🧠 Skin Lesion Classification CNN</b>",
+            "title": "Skin Lesion Classification CNN</b>",
             "desc": "Custom Convolutional Neural Network trained on the HAM10000 dataset with data augmentation and metadata integration. Benchmarked against VGG-16.",
             "tech": "TensorFlow · Keras · NumPy · Matplotlib",
             "abstract": (
@@ -76,7 +146,7 @@ def show_projects():
         },
 
         {
-            "title": "🍕 Pizza Restaurant Ordering System</b>",
+            "title": "Pizza Restaurant Ordering System</b>",
             "desc": "Developed a GUI-based ordering and delivery management system in Python integrated with a relational SQL database.",
             "tech": "Tkinter · SQL · Python · ER Diagrams",
             "abstract": (
@@ -102,7 +172,7 @@ def show_projects():
         },
 
         {
-            "title": "⛳ Golf Game AI Simulation </b>",
+            "title": "Golf Game AI Simulation </b>",
             "desc": "A physics-driven golf simulation integrating differential equations, numerical solvers, and AI bots for autonomous gameplay.",
             "tech": "Java · LibGDX · AI Optimization (Adam, A*) · Numerical Methods (Euler, RK4)",
             "abstract": (
@@ -137,117 +207,116 @@ def show_projects():
 
     ]
 
+
+    # ==============================================
+    # LOOP THROUGH PROJECTS
+    # ==============================================
     for p in projects:
-        # --- HEADER + DESCRIPTION ---
+
+        # ---------------- HEADER ----------------
         st.markdown(
-            f"""
-            <div style="text-align:center; font-size:40px;">{p['title']}</div>
-            """, unsafe_allow_html=True
+            f"<div style='text-align:center; font-size:42px; font-family:Space Grotesk;'>{p['title']}</div>",
+            unsafe_allow_html=True
+        )
+
+        st.markdown(
+            f"<div style='text-align:center; font-size:20px; opacity:0.9;'>{p['desc']}</div>",
+            unsafe_allow_html=True
+        )
+
+        st.markdown(
+            f"<div style='text-align:center; font-size:18px; opacity:0.7; margin-bottom:1rem;'>{p['tech']}</div>",
+            unsafe_allow_html=True
         )
 
         st.markdown(
             f"""
-            <div style="text-align:center; font-size:18px; line-height:1.6; margin-top:0.5rem; margin-bottom:0.5rem;">
-                {p["desc"]}
-            </div>
-            """, unsafe_allow_html=True
-        )
-
-        st.markdown(
-            f"""
-            <div style="text-align:center; font-size:18px; line-height:1.6; margin-top:0.5rem; margin-bottom:0.5rem; opacity:0.7;">
-                {p["tech"]}
-            </div>
-            """, unsafe_allow_html=True
-        )
-
-        st.markdown(
-            f"""
-            <div style="
-                text-align:left;
-                max-width:1200px;
-                margin-left:auto;
-                margin-right:auto;
-                font-size:25px;
-                line-height:1.6em;
-                margin-bottom:2.5rem;
-            ">
+            <div style='text-align:left; max-width:1200px; margin: 0 auto; 
+                        font-size:24px; line-height:1.6; margin-bottom:2rem;'>
                 {p['abstract']}
             </div>
-            """, unsafe_allow_html=True
+            """,
+            unsafe_allow_html=True
         )
 
-        # --- CONDITIONS ---
-        has_poster = "poster_path" in p and os.path.exists(p["poster_path"])
-        has_erd = "erd_path" in p and os.path.exists(p["erd_path"])
+        with st.expander("Read more"):
 
-        # --- EXPANDER SECTION ---
-        with st.expander("📖 Read more"):
+            # ---------------- Detect image ----------------
+            image_path = None
+            if "erd_path" in p and os.path.exists(p["erd_path"]):
+                image_path = p["erd_path"]
+            elif "poster_path" in p and os.path.exists(p["poster_path"]):
+                image_path = p["poster_path"]
 
-            if has_poster or has_erd:
-                col1, col2 = st.columns([1.2, 1.8], gap="medium")
+            # ---------------- Adaptive layout ----------------
+            if image_path:
+                ratio = get_aspect_ratio(image_path)
+
+                if ratio is None:
+                    col1, col2 = st.columns([1, 2])
+
+                else:
+                    if ratio < 0.8:          # tall
+                        col1, col2 = st.columns([1, 2.2])
+                    elif ratio <= 1.4:       # square-ish
+                        col1, col2 = st.columns([1.3, 1.7])
+                    elif ratio <= 2.0:       # wide
+                        col1, col2 = st.columns([1.7, 1.3])
+                    else:                    # extremely wide
+                        col1, col2 = st.columns([2.2, 1])
             else:
-                col2 = st.container()  # 👈 single full-width column
+                col2 = st.container()
 
-            # --- LEFT COLUMN (only if poster/erd exists) ---
-            if has_poster or has_erd:
+            # ---------------- IMAGE DISPLAY ----------------
+            if image_path:
                 with col1:
-                    if has_poster:
-                        st.image(p["poster_path"], caption="Project Poster", use_container_width=True)
+                    st.markdown(
+                        f"<img class='project-img' src='data:image/jpeg;base64,{img_to_base64(image_path)}'>",
+                        unsafe_allow_html=True
+                    )
 
-                    if has_erd:
+            # ---------------- EXPANDER WITH DETAILS ----------------
+            with col2:
+
+                    if "description" in p:
+                        st.markdown("#### Description")
+                        st.markdown(p["description"], unsafe_allow_html=True)
+
+                    if "planning" in p:
+                        st.markdown("#### Planning")
+                        st.markdown(p["planning"], unsafe_allow_html=True)
+
+                    if "getting_started" in p:
+                        st.markdown("#### Dataset & Validation")
+                        st.markdown(p["getting_started"], unsafe_allow_html=True)
+
+                    if "implementation" in p:
+                        st.markdown("#### Implementation")
+                        st.write(p["implementation"])
+
+                    if "experiments" in p:
+                        st.markdown("#### Experiments")
+                        st.write(p["experiments"])
+
+                    if "methods" in p:
+                        st.markdown("#### Methods")
+                        st.write(p["methods"])
+
+                    if "results" in p:
+                        st.markdown("#### Results")
+                        st.write(p["results"])
+
+                    if "video_link" in p:
                         st.markdown(
                             f"""
                             <div style="text-align:center; margin-top:15px;">
-                                <img src="data:image/jpeg;base64,{base64.b64encode(open(p['erd_path'], 'rb').read()).decode()}"
-                                    alt="ER Diagram"
-                                    style="max-width:1000px; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.25);">
-                                <p style="font-size:14px; color:gray;">Entity-Relationship Diagram</p>
+                            <a href="{p['video_link']}" target="_blank"
+                                style="font-size:20px; color:#b84c8b; text-decoration:none;">
+                                🎬 Watch Project Video
+                            </a>
                             </div>
                             """,
                             unsafe_allow_html=True
                         )
 
-            # --- RIGHT COLUMN (textual details, or full width if no visuals) ---
-            with col2:
-                st.markdown("#### 🔍 Description")
-                st.markdown(p.get("description", ""), unsafe_allow_html=True)
-
-                if "planning" in p:
-                    st.markdown("#### 🗓 Planning")
-                    st.markdown(p["planning"], unsafe_allow_html=True)
-
-                if "video_link" in p:
-                    st.markdown(
-                        f"""
-                        <div style="text-align:center; margin-top:10px;">
-                            <a href="{p['video_link']}" target="_blank"
-                            style="font-size:17px; color:#b84c8b; text-decoration:none; font-weight:600;">
-                            🎬 Watch Project Presentation
-                            </a>
-                        </div>
-                        """,
-                        unsafe_allow_html=True
-                    )
-
-                if "getting_started" in p:
-                    st.markdown("#### 🧩 Dataset & Validation")
-                    st.markdown(p["getting_started"], unsafe_allow_html=True)
-
-                if "implementation" in p:
-                    st.markdown("#### ⚙️ Implementation")
-                    st.write(p["implementation"])
-
-                if "experiments" in p:
-                    st.markdown("#### 🧪 Experiments")
-                    st.write(p["experiments"])
-
-                if "methods" in p:
-                    st.markdown("#### 📚 Methods")
-                    st.write(p["methods"])
-
-                if "results" in p:
-                    st.markdown("#### 📈 Results")
-                    st.write(p["results"])
-
-        st.markdown("---")
+    st.markdown("<br><br><br><br><br>", unsafe_allow_html=True)
