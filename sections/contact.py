@@ -1,7 +1,7 @@
 import streamlit as st
 
 def show_contact():
-    st.markdown('<a class="anchor" id="contact"></a>', unsafe_allow_html=True)
+    st.markdown('<a name="contact"></a>', unsafe_allow_html=True)
     st.header("Contact")
     st.write("📍 Currently in Lisbon, Portugal")
     st.write("📧 [nina.zorawska@email.com](mailto:nina.zorawska@email.com)")

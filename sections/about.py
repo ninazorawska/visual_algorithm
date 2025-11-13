@@ -3,7 +3,7 @@ import base64
 import os
 
 def show_about():
-    st.markdown('<a class="anchor" id="about"></a>', unsafe_allow_html=True)
+    st.markdown('<a name="about"></a>', unsafe_allow_html=True)
     st.header("About Me")
     st.markdown("<br><br><br>", unsafe_allow_html=True)
     col1, col2 = st.columns([1, 2])
@@ -41,5 +41,5 @@ def show_about():
             unsafe_allow_html=True
         )
 
-    st.markdown("<br><br><br><br><br><br>", unsafe_allow_html=True)
+    st.markdown("<br><br><br><br><br>", unsafe_allow_html=True)
     st.markdown("---")

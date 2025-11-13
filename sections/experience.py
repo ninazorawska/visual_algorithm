@@ -1,7 +1,7 @@
 import streamlit as st
 
 def show_experience():
-    st.markdown('<a class="anchor" id="experience"></a>', unsafe_allow_html=True)
+    st.markdown('<a name="experience"></a>', unsafe_allow_html=True)
     st.header("Experience & Volunteering")
 
     st.markdown("""

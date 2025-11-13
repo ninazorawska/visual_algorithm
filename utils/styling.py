@@ -112,6 +112,10 @@ def apply_custom_css():
                 margin: 0 auto;
                 color: #e8e8e8;
         }}
+        html {{
+                scroll-behavior: smooth !important;
+        }}
+
 
 
         /* Hide Streamlit chrome */

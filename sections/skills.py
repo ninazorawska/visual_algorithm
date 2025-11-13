@@ -3,7 +3,7 @@ import os
 import base64
 
 def show_skills():
-    st.markdown('<a class="anchor" id="skills"></a>', unsafe_allow_html=True)
+    st.markdown('<a name="skills"></a>', unsafe_allow_html=True)
     st.header("Technical Skills")
 
     st.markdown("""

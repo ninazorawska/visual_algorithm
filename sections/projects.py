@@ -25,9 +25,9 @@ def img_to_base64(path):
 
 
 def show_projects():
-    st.markdown('<a class="anchor" id="projects"></a>', unsafe_allow_html=True)
+    st.markdown('<a name="projects"></a>', unsafe_allow_html=True)
     st.header("Highlighted Projects")
-    st.markdown("<br><br><br>", unsafe_allow_html=True)
+    st.markdown("<br><br>", unsafe_allow_html=True)
     # Minimalist expander styling
     st.markdown("""
     <style>
@@ -66,7 +66,7 @@ def show_projects():
 
     /* Section titles: Description, Methods, Results, etc. */
     div[data-testid="stExpander"] h4 {
-        font-size: 28px !important;          /* <<< CHANGE SIZE HERE */
+        font-size: 24px !important;          /* <<< CHANGE SIZE HERE */
         font-family: 'Space Grotesk', sans-serif !important;   /* <<< CHANGE FONT HERE */
         font-weight: 600 !important;
         margin-top: 1.5rem !important;
@@ -77,7 +77,7 @@ def show_projects():
     div[data-testid="stExpander"] p,
     div[data-testid="stExpander"] ul li,
     div[data-testid="stExpander"] div {
-        font-size: 25px !important;           /* <<< CHANGE SIZE HERE */
+        font-size: 22px !important;           /* <<< CHANGE SIZE HERE */
         font-family: 'Space Grotesk', sans-serif !important; /* <<< CHANGE FONT HERE */
         line-height: 1.7 !important;
         color: #111 !important;
@@ -203,7 +203,79 @@ def show_projects():
                 "can enhance decision-making in autonomous systems."
             )
 
+        },
+
+        {
+            "title": "Alien Grades Analysis & Prediction",
+            "desc": "A grade-prediction tool built from three alien student datasets, including cleaning, handling missing values, visual pattern detection, and predictive modelling.",
+            "tech": "Java · JavaFX · Regression Trees · Random Forest · SSR",
+            
+            "abstract": (
+                "This project explores whether missing grades from alien student files can be accurately predicted using "
+                "non-linear models. After cleaning the datasets and uncovering structural properties such as course "
+                "periodization, we develop regression-tree and random-forest models to estimate missing grades and study "
+                "relationships between subjects. The final system provides interpretable predictions based on multiple "
+                "student and course features."
+            ),
+
+            "description": (
+                "Key questions investigated include: "
+                " • How many subjects exist and how are they related? "
+                " • How are students grouped by period or class? "
+                " • What is the significance of missing grades? "
+                " • Can we reliably predict missing grades? "
+                " • Which modelling and visualization methods work best? "
+            ),
+
+            "visualization": (
+                "To support interpretation, we implemented custom visual tools in JavaFX. A TreeNode class records each "
+                "split’s threshold, SSR, and branching direction, enabling full reconstruction of regression trees. "
+                "Histograms visualize SSR values across split candidates, highlighting the optimal threshold. Heatmaps "
+                "display grade matrices and missing-grade patterns, offering a clear overview of dataset structure."
+            ),
+
+            "methods": (
+                "Missing grades were not imputed with simple means or medians, as they were not missing at random. "
+                "Columns with over 70% missing values were removed, revealing a natural periodization of courses and "
+                "allowing students to be stratified by period. "
+                "We then used the sum of squared residuals (SSR) to determine optimal splits when building regression "
+                "trees. The split with the lowest SSR provided the highest information gain, ensuring clean group "
+                "separation and interpretable tree structure."
+            ),
+
+            "regression_tree": (
+                "The regression tree is built recursively: for each node, the best split is chosen using the lowest SSR. "
+                "To prevent overfitting, we enforced a minimum of 20 samples per node before allowing further splits. "
+                "This produced a balanced, generalizable tree. We extended the method to multiple attributes by "
+                "evaluating potential splits across all features and selecting the globally optimal threshold."
+            ),
+
+            "random_forest": (
+                "To improve predictive accuracy, we implemented a random forest trained on bootstrapped datasets. "
+                "Before sampling, missing grades were temporarily imputed using subject averages, while students with "
+                "extremely sparse records were handled separately to avoid bias. The forest was validated on a dedicated "
+                "validation set and evaluated on out-of-bag samples. Multiple iterations with different attribute subsets "
+                "were performed to strengthen predictive performance."
+            ),
+
+            "experiments": (
+                "To analyze how strongly subjects predict each other, we trained random forests of 100 trees across 30 "
+                "iterations for each target subject. Normalized variance reductions were averaged to compute stable "
+                "feature-importance scores. The most influential predictor for each subject was identified, allowing us "
+                "to compare these non-linear patterns to the linear correlations observed during earlier analysis."
+            ),
+
+            "results": (
+                "The results show clear period-based patterns in subject difficulty and missing-grade distribution, "
+                "visualized using a color-coded matrix. Feature-importance values ranged from 0.21 to 0.82. While the "
+                "random forest produced meaningful predictions, its 30-iteration setup remains somewhat arbitrary. "
+                "Overall, the modelling approach demonstrates strong potential for grade prediction and subject-relation "
+                "analysis."
+            )
         }
+
+
+
 
     ]
 
@@ -290,17 +362,29 @@ def show_projects():
                         st.markdown("#### Dataset & Validation")
                         st.markdown(p["getting_started"], unsafe_allow_html=True)
 
+                    if "methods" in p:
+                        st.markdown("#### Methods")
+                        st.write(p["methods"])
+                    
+                    if "regression_tree" in p:
+                        st.markdown("#### Regression Tree")
+                        st.markdown(p["regression_tree"], unsafe_allow_html=True)
+
+                    if "random_forest" in p:
+                        st.markdown("#### Random Forest")
+                        st.markdown(p["random_forest"], unsafe_allow_html=True)
+
                     if "implementation" in p:
                         st.markdown("#### Implementation")
                         st.write(p["implementation"])
+  
+                    if "visualization" in p:
+                        st.markdown("#### Visualization")
+                        st.write(p["visualization"])
 
                     if "experiments" in p:
                         st.markdown("#### Experiments")
                         st.write(p["experiments"])
-
-                    if "methods" in p:
-                        st.markdown("#### Methods")
-                        st.write(p["methods"])
 
                     if "results" in p:
                         st.markdown("#### Results")
@@ -318,5 +402,4 @@ def show_projects():
                             """,
                             unsafe_allow_html=True
                         )
-
-    st.markdown("<br><br><br><br><br>", unsafe_allow_html=True)
+        st.markdown("<br><br><br><br><br>", unsafe_allow_html=True)
